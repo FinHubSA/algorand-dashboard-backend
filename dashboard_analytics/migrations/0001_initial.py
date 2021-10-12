@@ -21,33 +21,33 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.CreateModel(
-            name='Account_Type',
+            name='AccountType',
             fields=[
-                ('Account_TypeID', models.IntegerField(primary_key=True, serialize=False)),
+                ('AccountTypeID', models.IntegerField(primary_key=True, serialize=False)),
                 ('Type', models.CharField(max_length=100)),
             ],
         ),
         migrations.CreateModel(
-            name='Instrument_Type',
+            name='InstrumentType',
             fields=[
-                ('Instrument_TypeID', models.IntegerField(primary_key=True, serialize=False)),
+                ('InstrumentTypeID', models.IntegerField(primary_key=True, serialize=False)),
                 ('Type', models.CharField(max_length=100)),
             ],
         ),
         migrations.CreateModel(
             name='Transaction',
             fields=[
-                ('Transaction_ID', models.CharField(max_length=100, primary_key=True, serialize=False)),
+                ('TransactionID', models.CharField(max_length=100, primary_key=True, serialize=False)),
                 ('Timestamp', models.DateField()),
                 ('Amount', models.IntegerField()),
-                ('Instrument_TypeID', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='dashboard_analytics.instrument_type')),
+                ('InstrumentTypeID', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='dashboard_analytics.InstrumentType')),
                 ('Receiver', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='Receiver', to='dashboard_analytics.account')),
                 ('Sender', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='Sender', to='dashboard_analytics.account')),
             ],
         ),
         migrations.AddField(
             model_name='account',
-            name='Account_TypeID',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='dashboard_analytics.account_type'),
+            name='AccountTypeID',
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='dashboard_analytics.AccountType'),
         ),
     ]

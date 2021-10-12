@@ -1,21 +1,21 @@
 from rest_framework import serializers
-from dashboard_analytics.models import Account_Type, Instrument_Type, Account, Transaction
+from dashboard_analytics.models import AccountType, InstrumentType, Account, Transaction
 
 
-class Account_TypeSerializer(serializers.ModelSerializer):
+class AccountTypeSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = Account_Type
-        fields = ('Account_TypeID',
+        model = AccountType
+        fields = ('AccountTypeID',
                   'Type',
                   )
 
 
-class Instrument_TypeSerializer(serializers.ModelSerializer):
+class InstrumentTypeSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = Instrument_Type
-        fields = ('Instrument_TypeID',
+        model = InstrumentType
+        fields = ('InstrumentTypeID',
                   'Type',
                   )
 
@@ -34,9 +34,9 @@ class TransactionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Transaction
-        fields = ('Transaction_ID',
+        fields = ('TransactionID',
                   'Timestamp',
-                  'Instrument_TypeID',
+                  'InstrumentTypeID',
                   'Receiver',
                   'Sender'
                   )

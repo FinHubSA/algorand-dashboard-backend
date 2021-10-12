@@ -1,0 +1,141 @@
+[
+    {
+        "model": "dashboard_analytics.AccountType",
+        "pk": 1,
+        "fields": {
+            "Type": "Household"
+        }
+    },
+    {
+        "model": "dashboard_analytics.AccountType",
+        "pk": 2,
+        "fields": {
+            "Type": "Firm"
+        }
+    },
+    {
+        "model": "dashboard_analytics.AccountType",
+        "pk": 3,
+        "fields": {
+            "Type": "Bank"
+        }
+    },
+    {
+        "model": "dashboard_analytics.AccountType",
+        "pk": 4,
+        "fields": {
+            "Type": "LSP"
+        }
+    },
+    {
+        "model": "dashboard_analytics.AccountType",
+        "pk": 5,
+        "fields": {
+            "Type": "CentralBank"
+        }
+    },
+
+
+    {
+        "model": "dashboard_analytics.InstrumentType",
+        "pk": 1,
+        "fields": {
+            "Type": "Bank Notes"
+        }
+    },
+    {
+        "model": "dashboard_analytics.InstrumentType",
+        "pk": 2,
+        "fields": {
+            "Type": "Deposits"
+        }
+    },
+    {
+        "model": "dashboard_analytics.InstrumentType",
+        "pk": 3,
+        "fields": {
+            "Type": "Loans and Bonds"
+        }
+    },
+    {
+        "model": "dashboard_analytics.InstrumentType",
+        "pk": 4,
+        "fields": {
+            "Type": "Reserves"
+        }
+    },
+    {
+        "model": "dashboard_analytics.InstrumentType",
+        "pk": 5,
+        "fields": {
+            "Type": "CBDC"
+        }
+    },
+    {
+        "model": "dashboard_analytics.InstrumentType",
+        "pk": 6,
+        "fields": {
+            "Type": "Open Market Operations"
+        }
+    },
+
+
+    {
+        "model": "dashboard_analytics.Account",
+        "pk": "HOUSEHOLD1",
+        "fields": {
+            "AccountTypeID": 1,
+            "Balance": 0,
+            "Name": ""
+        }
+    },
+    {
+        "model": "dashboard_analytics.Account",
+        "pk": "FIRM1",
+        "fields": {
+            "AccountTypeID": 2,
+            "Balance": 0,
+            "Name": ""
+        }
+    },
+    {
+        "model": "dashboard_analytics.Account",
+        "pk": "BANK1",
+        "fields": {
+            "AccountTypeID": 3,
+            "Balance": 0,
+            "Name": ""
+        }
+    },
+    {
+        "model": "dashboard_analytics.Account",
+        "pk": "LSP1",
+        "fields": {
+            "AccountTypeID": 4,
+            "Balance": 0,
+            "Name": ""
+        }
+    },
+    {
+        "model": "dashboard_analytics.Account",
+        "pk": "CENTRALBANK",
+        "fields": {
+            "AccountTypeID": 5,
+            "Balance": 100000000000,
+            "Name": ""
+        }
+    },
+
+
+    {
+        "model": "dashboard_analytics.Transaction",
+        "pk": "1",
+        "fields": {
+            "Sender": "CENTRALBANK",
+            "Receiver": "BANK1",
+            "Amount": 1000000,
+            "InstrumentTypeID": 6,
+            "Timestamp": "2021-10-08"
+        }
+    }
+  ]
