@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'dashboard_analytics.apps.DashboardAnalyticsConfig',
     'corsheaders',
+    'django_celery_beat',
+    'celery',
 ]
 
 MIDDLEWARE = [
@@ -137,11 +139,16 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# celery settings
+CELERY_BROKER_URL = "redis://localhost:6379"
+CELERY_RESULT_BACKEND = "redis://localhost:6379"
+CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
+
 ####################
 ## Local Settings ##
 ####################
 
 try:
-  from .local_settings import *
+    from .local_settings import *
 except ImportError:
-  pass
+    pass
