@@ -18,3 +18,44 @@ def account_list(request):
     if request.method == 'GET':
         accounts_serializer = AccountSerializer(accounts, many=True)
         return JsonResponse(accounts_serializer.data, safe=False)
+
+@api_view(['GET', 'POST', 'DELETE'])
+def node_transactions(request):
+    accounts = Account.objects.all()
+
+    if request.method == 'GET':
+        accounts_serializer = AccountSerializer(accounts, many=True)
+        return JsonResponse(accounts_serializer.data, safe=False)
+
+
+@api_view(['GET'])
+def total_transactions(request):
+    transactions_total = Account.objects.count()
+
+    if request.method == 'GET':
+        return JsonResponse(transactions_total, safe=False)
+
+@api_view(['GET'])
+def total_volume(request):
+    accounts = Account.objects.all()
+
+    if request.method == 'GET':
+        accounts_serializer = AccountSerializer(accounts, many=True)
+        return JsonResponse(accounts_serializer.data, safe=False)
+
+@api_view(['GET'])
+def most_active_addresses(request):
+    accounts = Account.objects.all()
+
+    if request.method == 'GET':
+        accounts_serializer = AccountSerializer(accounts, many=True)
+        return JsonResponse(accounts_serializer.data, safe=False)
+
+@api_view(['GET'])
+def account_type_total(request):
+    accounts = Account.objects.all()
+
+    if request.method == 'GET':
+        accounts_serializer = AccountSerializer(accounts, many=True)
+        return JsonResponse(accounts_serializer.data, safe=False)
+

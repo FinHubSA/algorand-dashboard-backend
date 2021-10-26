@@ -138,4 +138,16 @@
             "Timestamp": "2021-10-08"
         }
     }
+
+    {
+        "model": "dashboard_analytics.Transaction",
+        "pk": "1",
+        "fields": {
+            "Sender": "CENTRALBANK",
+            "Receiver": "BANK1",
+            "Amount": 1000000,
+            "InstrumentTypeID": 6,
+            "Timestamp": "2021-10-08"
+        }
+    }
   ]
