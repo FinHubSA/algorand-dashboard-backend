@@ -46,11 +46,9 @@ def total_volume(request):
 
 @api_view(['GET'])
 def most_active_addresses(request):
-    accounts = Account.objects.all()
-
+    most_active_addresses = list(Account.objects.annotate(transaction_count=Count("Sender", distinct=True) + Count("Receiver", distinct=True)).values("Address", "transaction_count"))
     if request.method == 'GET':
-        accounts_serializer = AccountSerializer(accounts, many=True)
-        return JsonResponse(accounts_serializer.data, safe=False)
+        return JsonResponse(most_active_addresses[:6], safe=False) 
 
 @api_view(['GET'])
 def account_type_total(request):
