@@ -5,6 +5,8 @@ from django.db.models import Avg, Count, Min, Sum
 from django.http.response import JsonResponse
 from rest_framework.parsers import JSONParser
 from rest_framework import status
+from django.http import HttpResponse
+from django.core import serializers
 
 from dashboard_analytics.models import AccountType, InstrumentType, Account, Transaction
 from dashboard_analytics.serializers import AccountTypeSerializer, InstrumentTypeSerializer, AccountSerializer, TransactionSerializer
@@ -52,9 +54,7 @@ def most_active_addresses(request):
 
 @api_view(['GET'])
 def account_type_total(request):
-    accounts = Account.objects.all()
-
+    type_totals = list(AccountType.objects.annotate(account_type_sum =Sum("account__Balance")).values_list('Type','account_type_sum'))
     if request.method == 'GET':
-        accounts_serializer = AccountSerializer(accounts, many=True)
-        return JsonResponse(accounts_serializer.data, safe=False)
+       return JsonResponse(type_totals, safe=False)    
 
