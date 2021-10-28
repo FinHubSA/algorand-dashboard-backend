@@ -57,7 +57,7 @@ MIDDLEWARE = [
 
 CORS_ORIGIN_ALLOW_ALL = False
 CORS_ORIGIN_WHITELIST = (
-    'http://localhost:8081',
+    'http://localhost:3000',
 )
 
 ROOT_URLCONF = 'algorand_dashboard.urls'
@@ -87,7 +87,7 @@ WSGI_APPLICATION = 'algorand_dashboard.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'algorand_data',
+        'NAME': 'algodashboard',
         'USER': 'postgres',
         'PASSWORD': 'alli1510',
         'HOST': '127.0.0.1',
