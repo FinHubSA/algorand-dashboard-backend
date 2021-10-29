@@ -22,20 +22,25 @@ def account_list(request):
         accounts_serializer = AccountSerializer(accounts, many=True)
         return JsonResponse(accounts_serializer.data, safe=False)
 
-@api_view(['GET'])
+
+@api_view(['POST'])
 def node_transactions(request):
-    transaction_node = Transaction.objects.select_related('Sender__AccountTypeID', 'Receiver__AccountTypeID', "InstrumentTypeID")
+    fromDate = request.data.get('from','')
+    toDate = request.data.get('to','')
+    print("from: "+fromDate+" to: "+toDate)
+    transaction_node = Transaction.objects.select_related(
+        'Sender__AccountTypeID', 'Receiver__AccountTypeID', "InstrumentTypeID")
     node_data = transaction_node.values(
-        id= F("TransactionID"), 
+        id=F("TransactionID"),
         amount=F("Amount"),
         sender=F("Sender"),
         receiver=F("Receiver"),
         sender_balance=F("Sender__Balance"),
         receiver_balance=F("Receiver__Balance"),
         sender_type=F("Sender__AccountTypeID__Type"),
-        receiver_type=F("Receiver__AccountTypeID__Type"), 
-        instrument_type=F( "InstrumentTypeID__Type"))
-    if request.method == 'GET':
+        receiver_type=F("Receiver__AccountTypeID__Type"),
+        instrument_type=F("InstrumentTypeID__Type"))
+    if request.method == 'POST':
         return JsonResponse(list(node_data), safe=False)
 
 
@@ -43,26 +48,34 @@ def node_transactions(request):
 def total_transactions(request):
     transactions_total = Transaction.objects.count()
     total_transactions = {
-        "total_transactions" : transactions_total
-        }
+        "total_transactions": transactions_total
+    }
     if request.method == 'GET':
         return JsonResponse(total_transactions, safe=False)
+
 
 @api_view(['GET'])
 def total_volume(request):
     total_volume = Account.objects.aggregate(Sum('Balance'))
+
+    volume_total = {
+        "total_volume": total_volume["Balance__sum"]
+    }
     if request.method == 'GET':
-        return JsonResponse(total_volume, safe=False)
+        return JsonResponse(volume_total, safe=False)
+
 
 @api_view(['GET'])
 def most_active_addresses(request):
-    most_active_addresses = list(Account.objects.annotate(transaction_count=Count("Sender", distinct=True) + Count("Receiver", distinct=True)).values("Address", "transaction_count"))
+    most_active_addresses = list(Account.objects.annotate(transaction_count=Count(
+        "Sender", distinct=True) + Count("Receiver", distinct=True)).values("Address", "transaction_count"))
     if request.method == 'GET':
-        return JsonResponse(most_active_addresses[:6], safe=False) 
+        return JsonResponse(most_active_addresses[:6], safe=False)
+
 
 @api_view(['GET'])
 def account_type_total(request):
-    type_totals = list(AccountType.objects.annotate(account_type_sum =Sum("account__Balance")).values_list('Type','account_type_sum'))
+    type_totals = list(AccountType.objects.annotate(account_type_sum=Sum(
+        "account__Balance")).values_list('Type', 'account_type_sum'))
     if request.method == 'GET':
-       return JsonResponse(type_totals, safe=False)    
-
+        return JsonResponse(type_totals, safe=False)
