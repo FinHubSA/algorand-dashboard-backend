@@ -23,8 +23,11 @@ def account_list(request):
         return JsonResponse(accounts_serializer.data, safe=False)
 
 
-@api_view(['GET'])
+@api_view(['POST'])
 def node_transactions(request):
+    fromDate = request.data.get('from','')
+    toDate = request.data.get('to','')
+    print("from: "+fromDate+" to: "+toDate)
     transaction_node = Transaction.objects.select_related(
         'Sender__AccountTypeID', 'Receiver__AccountTypeID', "InstrumentTypeID")
     node_data = transaction_node.values(
@@ -37,7 +40,7 @@ def node_transactions(request):
         sender_type=F("Sender__AccountTypeID__Type"),
         receiver_type=F("Receiver__AccountTypeID__Type"),
         instrument_type=F("InstrumentTypeID__Type"))
-    if request.method == 'GET':
+    if request.method == 'POST':
         return JsonResponse(list(node_data), safe=False)
 
 
