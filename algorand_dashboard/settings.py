@@ -139,9 +139,12 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# redis settings
+REDIS_HOST="localhost"
+REDIS_PORT="6379"
 # celery settings
-CELERY_BROKER_URL = "redis://localhost:6379"
-CELERY_RESULT_BACKEND = "redis://localhost:6379"
+CELERY_BROKER_URL = "redis://"+REDIS_HOST+":"+REDIS_PORT
+CELERY_RESULT_BACKEND = "redis://"+REDIS_HOST+":"+REDIS_PORT
 CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
 
 ####################

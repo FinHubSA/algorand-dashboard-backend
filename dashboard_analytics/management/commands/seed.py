@@ -2,7 +2,6 @@ from django.core.management.base import BaseCommand, CommandError
 import requests
 from dashboard_analytics.models import AccountType, InstrumentType, Account, Transaction
 
-
 # file to indexer API and save into postgres database
 # Indexer port configuration
 INDEXER_PORT = "123"
