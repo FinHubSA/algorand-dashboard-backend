@@ -16,12 +16,13 @@ def process_transactions_task():
     task_name = inspect.stack()[0][3]
 
     if not redis_instance.exists(task_name):
-        print("Exuting Task: "+task_name)
+        print("Executing Task: "+task_name)
         redis_instance.set(task_name, "")
         
         # Process transactions
         process_json_transactions(data)
-
+        
+        print("Finished Task: "+task_name)
         redis_instance.delete(task_name)
     
 
