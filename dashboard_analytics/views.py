@@ -27,8 +27,7 @@ def node_transactions(request):
     fromDate = request.data.get('from','')
     toDate = request.data.get('to','')
     print("from: "+fromDate+" to: "+toDate)
-    transaction_node = Transaction.objects.select_related(
-        'Sender__AccountTypeID', 'Receiver__AccountTypeID', "InstrumentTypeID")
+    transaction_node = Transaction.objects.filter(Timestamp__range=[fromDate, toDate]).select_related('Sender__AccountTypeID', 'Receiver__AccountTypeID', "InstrumentTypeID")
     node_data = transaction_node.values(
         id=F("TransactionID"),
         amount=F("Amount"),
