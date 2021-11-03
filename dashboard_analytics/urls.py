@@ -7,5 +7,7 @@ urlpatterns = [
     url(r'^api/total_transactions$', views.total_transactions),
     url(r'^api/total_volume$', views.total_volume),
     url(r'^api/most_active_addresses$', views.most_active_addresses),
+    url(r'^api/account_type_payments_receipts$', views.account_type_payments_receipts),
     url(r'^api/account_type_total$', views.account_type_total),
+    
 ]
