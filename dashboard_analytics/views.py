@@ -42,23 +42,47 @@ def node_transactions(request):
         return JsonResponse(list(node_data), safe=False)
 
 
-@api_view(['GET'])
+@api_view(['POST'])
 def total_transactions(request):
-    transactions_total = Transaction.objects.count()
+    fromDate = request.data.get('from','')
+    toDate = request.data.get('to','')
+
+    transactions_total = Transaction.objects.filter(Timestamp__range=[fromDate, toDate]).count()
     total_transactions = {
         "total_transactions": transactions_total
     }
-    if request.method == 'GET':
+    if request.method == 'POST':
         return JsonResponse(total_transactions, safe=False)
 
+@api_view(['POST'])
+def average_transaction_amount(request):
+    fromDate = request.data.get('from','')
+    toDate = request.data.get('to','')
+
+    transaction_node = Transaction.objects.filter(Timestamp__range=[fromDate, toDate])
+    data = transaction_node.aggregate(average_transaction_amount=Avg("Amount"))
+    if request.method == "POST":
+        return JsonResponse(data, safe=False)
+
+@api_view(['POST'])
+def average_loan_amount(request):
+    fromDate = request.data.get('from','')
+    toDate = request.data.get('to','')
+
+    transaction_node = Transaction.objects.filter(Timestamp__range=[fromDate, toDate],InstrumentTypeID__Type="Loans and Bonds")
+    data = transaction_node.aggregate(average_loan_amount=Avg("Amount"))
+    if request.method == "POST":
+        return JsonResponse(data, safe=False)
 
 @api_view(['GET'])
 def total_volume(request):
+    
     total_volume = Account.objects.aggregate(Sum('Balance'))
 
     volume_total = {
         "total_volume": total_volume["Balance__sum"]
     }
+
     if request.method == 'GET':
         return JsonResponse(volume_total, safe=False)
 
