@@ -9,5 +9,6 @@ urlpatterns = [
     url(r'^api/most_active_addresses$', views.most_active_addresses),
     url(r'^api/account_type_payments_receipts$', views.account_type_payments_receipts),
     url(r'^api/account_type_total$', views.account_type_total),
-    
+    url(r'^api/average_transaction_amount$', views.average_transaction_amount),
+    url(r'^api/average_loan_amount$', views.average_loan_amount),
 ]
