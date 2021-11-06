@@ -32,46 +32,11 @@ def most_active_accounts(request):
 
     transaction_nodes = Transaction.objects.filter(Timestamp__range=[fromDate, toDate]).select_related("Sender__AccountTypeID", "Receiver__AccountTypeID")
     sender_data = transaction_nodes.values(
-        account=F("Sender")).annotate(account_type=F("Sender__AccountTypeID__Type"), payments=Sum("Amount"), number_of_payments=Count("TransactionID"))
+        account=F("Sender")).annotate(account_type=F("Sender__AccountTypeID__Type"), payments=Sum("Amount"), balance=F("Sender__Balance"), number_of_payments=Count("TransactionID"))
     
     receiver_data = transaction_nodes.values(
-        account=F("Receiver")).annotate(account_type=F("Receiver__AccountTypeID__Type"), receipts=Sum("Amount"), number_of_receipts=Count("TransactionID"))
+        account=F("Receiver")).annotate(account_type=F("Receiver__AccountTypeID__Type"), receipts=Sum("Amount"), balance=F("Receiver__Balance"), number_of_receipts=Count("TransactionID"))
     
-    # for item in sender_data.iterator():
-    #     item["receipts"] = 0
-    #     item["number_of_receipts"] = 0
-
-    #     item["number_of_transactions"] = item["number_of_payments"]
-    #     item["net_transactions_value"] = -1 * round(item["payments"], 2)
-    #     item["abs_transactions_value"] = round(item["payments"], 2)
-    #     results[item["account"]] = item
-
-    # for item in receiver_data.iterator():
-    #     if item["account"] in results.keys():
-    #         # results has sender fields: payments and num_of_payments
-    #         # item only has receiver fields: receipts and num_of_receipts
-    #         result = results[item["account"]]
-    #         # put sender fields into item
-    #         item["payments"] = round(result["payments"],2)
-    #         item["number_of_payments"] = result["number_of_payments"]
-    #         # format receipts field
-    #         item["receipts"] = round(item["receipts"],2)
-
-    #         item["number_of_transactions"] = item["number_of_receipts"] + result["number_of_payments"]
-    #         item["net_transactions_value"] = round(item["receipts"] - result["payments"], 2)
-    #         item["abs_transactions_value"] = round(item["receipts"] + result["payments"], 2)
-    #         results[item["account"]] = item
-    #     else:
-    #         item["payments"] = 0
-    #         item["number_of_payments"] = 0
-    #         # format receipts field
-    #         item["receipts"] = round(item["receipts"],2)
-
-    #         item["number_of_transactions"] = item["number_of_receipts"]
-    #         item["net_transactions_value"] = round(item["receipts"], 2)
-    #         item["abs_transactions_value"] = round(item["receipts"], 2)
-    #         results[item["account"]] = item
-
     for s_item in sender_data.iterator():
         item = copy.deepcopy(s_item)
 
@@ -84,7 +49,6 @@ def most_active_accounts(request):
         results[item["account"]] = item
 
     for r_item in receiver_data.iterator():
-        # for some reason the zinggrid UI gives errors with the rounding if we don't deep copy.
         item = copy.deepcopy(r_item)
         if item["account"] in results.keys():
             # results has sender fields: payments and num_of_payments
