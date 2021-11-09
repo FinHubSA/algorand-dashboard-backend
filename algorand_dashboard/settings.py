@@ -87,11 +87,11 @@ WSGI_APPLICATION = 'algorand_dashboard.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'algodashboard',
-        'USER': 'postgres',
-        'PASSWORD': 'alli1510',
-        'HOST': '127.0.0.1',
-        'PORT': '5433',
+        'NAME': 'd8qnfalt756gtf',
+        'USER': 'wkftqggepjzelp',
+        'PASSWORD': '9c2bcb85d0db181babb217ebe18a85d3246cc6149234244904a24e092e048f91',
+        'HOST': 'ec2-54-160-35-196.compute-1.amazonaws.com',
+        'PORT': '5432',
     }
 }
 
