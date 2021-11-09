@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-5q+a-lv@8iwda^t57w!cqvopre1kns_3^@iw9dj++3@set3#(4
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['algorand-dashboard.herokuapp.com']
 
 
 # Application definition
