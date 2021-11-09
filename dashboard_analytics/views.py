@@ -9,6 +9,8 @@ from django.http import HttpResponse
 from django.core import serializers
 from django.db.models import F, CharField, Value 
 
+import copy
+
 from dashboard_analytics.models import AccountType, InstrumentType, Account, Transaction
 from dashboard_analytics.serializers import AccountTypeSerializer, InstrumentTypeSerializer, AccountSerializer, TransactionSerializer
 from rest_framework.decorators import api_view
@@ -21,6 +23,60 @@ def account_list(request):
         accounts_serializer = AccountSerializer(accounts, many=True)
         return JsonResponse(accounts_serializer.data, safe=False)
 
+@api_view(['POST'])
+def most_active_accounts(request):
+    fromDate = request.data.get('from','')#,'2020-11-03')
+    toDate = request.data.get('to','')#'2021-11-03')
+
+    results = {}
+
+    transaction_nodes = Transaction.objects.filter(Timestamp__range=[fromDate, toDate]).select_related("Sender__AccountTypeID", "Receiver__AccountTypeID")
+    sender_data = transaction_nodes.values(
+        account=F("Sender")).annotate(account_type=F("Sender__AccountTypeID__Type"), payments=Sum("Amount"), balance=F("Sender__Balance"), number_of_payments=Count("TransactionID"))
+    
+    receiver_data = transaction_nodes.values(
+        account=F("Receiver")).annotate(account_type=F("Receiver__AccountTypeID__Type"), receipts=Sum("Amount"), balance=F("Receiver__Balance"), number_of_receipts=Count("TransactionID"))
+    
+    for s_item in sender_data.iterator():
+        item = copy.deepcopy(s_item)
+
+        item["receipts"] = 0
+        item["number_of_receipts"] = 0
+
+        item["number_of_transactions"] = item["number_of_payments"]
+        item["net_transactions_value"] = -1 * round(item["payments"], 2)
+        item["abs_transactions_value"] = round(item["payments"], 2)
+        results[item["account"]] = item
+
+    for r_item in receiver_data.iterator():
+        item = copy.deepcopy(r_item)
+        if item["account"] in results.keys():
+            # results has sender fields: payments and num_of_payments
+            # item only has receiver fields: receipts and num_of_receipts
+            result = results[item["account"]]
+            # put sender fields into item
+            item["payments"] = result["payments"]
+            item["number_of_payments"] = result["number_of_payments"]
+            # format receipts field
+            item["receipts"] = item["receipts"]
+
+            item["number_of_transactions"] = item["number_of_receipts"] + result["number_of_payments"]
+            item["net_transactions_value"] = item["receipts"] - result["payments"]
+            item["abs_transactions_value"] = item["receipts"] + result["payments"]
+            results[item["account"]] = item
+        else:
+            item["payments"] = 0
+            item["number_of_payments"] = 0
+            # format receipts field
+            item["receipts"] = item["receipts"]
+
+            item["number_of_transactions"] = item["number_of_receipts"]
+            item["net_transactions_value"] = item["receipts"]
+            item["abs_transactions_value"] = item["receipts"]
+            results[item["account"]] = item
+    
+    if request.method == "POST":
+        return JsonResponse(results, safe=False)
 
 @api_view(['POST'])
 def node_transactions(request):
