@@ -140,8 +140,8 @@ STATIC_URL = '/static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # redis settings
-REDIS_HOST=":p343abeac95e38a684e025a4ed6f61c2ada47f87d0fc89c368eacd5bc3799a18b@ec2-3-225-98-55.compute-1.amazonaws.com"
-REDIS_PORT="26440"
+REDIS_HOST="redistogo:3327cc415da67f5f639287ecacd58025@spinyfin.redistogo.com"
+REDIS_PORT="11838"
 # celery settings
 CELERY_BROKER_URL = "redis://"+REDIS_HOST+":"+REDIS_PORT
 CELERY_RESULT_BACKEND = "redis://"+REDIS_HOST+":"+REDIS_PORT
