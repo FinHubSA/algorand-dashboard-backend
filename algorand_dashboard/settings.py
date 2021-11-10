@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-5q+a-lv@8iwda^t57w!cqvopre1kns_3^@iw9dj++3@set3#(4
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['algorand-dashboard.herokuapp.com']
+ALLOWED_HOSTS = ['algorand-dashboard.herokuapp.com','127.0.0.1','localhost']
 
 
 # Application definition
@@ -140,11 +140,14 @@ STATIC_URL = '/static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # redis settings
-REDIS_HOST="redistogo:3327cc415da67f5f639287ecacd58025@spinyfin.redistogo.com"
+# redis cloud: redis-18965.c8.us-east-1-2.ec2.cloud.redislabs.com:18965
+# redis to go: redistogo:3327cc415da67f5f639287ecacd58025@spinyfin.redistogo.com:11838
+REDIS_HOST="spinyfin.redistogo.com"
 REDIS_PORT="11838"
+REDIS_PASSWORD="3327cc415da67f5f639287ecacd58025"
 # celery settings
-CELERY_BROKER_URL = "redis://"+REDIS_HOST+":"+REDIS_PORT
-CELERY_RESULT_BACKEND = "redis://"+REDIS_HOST+":"+REDIS_PORT
+CELERY_BROKER_URL = "redis://redistogo:3327cc415da67f5f639287ecacd58025@spinyfin.redistogo.com:"+REDIS_PORT
+CELERY_RESULT_BACKEND = "redis://redistogo:3327cc415da67f5f639287ecacd58025@spinyfin.redistogo.com:"+REDIS_PORT
 CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
 
 ####################
