@@ -11,6 +11,12 @@ source venv/bin/activate
 # Start backend server
 python3 manage.py runserver
 
+# Load initial data for AccountType and InstrumentType models
+python3 manage.py loaddata fixtures/model_fixtures.json
+
+# Reset tables ** BE CAREFUL **
+python3 manage.py flush
+
 # Process transactions in dashboard_analytics/data folder
 Copy transactions to be processed from cbdc_dict_all.py to cbdc_dict.py. \
 Copy all if required; it might take a bit of time to load all. \

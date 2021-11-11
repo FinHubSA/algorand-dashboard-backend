@@ -16,11 +16,13 @@ def process_json_transactions(transactions):
             sender_account_type = AccountType.objects.get(AccountTypeID=s_acctype_id)
             receiver_account_type = AccountType.objects.get(AccountTypeID=r_acctype_id)
 
-            if not Account.objects.filter(Address=txn["fields"]["Sender"]).exists():
+            if Account.objects.filter(Address=txn["fields"]["Sender"]).exists():
+                Account.objects.filter(Address=txn["fields"]["Sender"]).update(Balance=F("Balance") - txn["fields"]["Amount"])
+            else:
                 Account.objects.create(
                     Address=txn["fields"]["Sender"],
                     AccountTypeID=sender_account_type,
-                    Balance=0)
+                    Balance= -1 * txn["fields"]["Amount"])
             
             if Account.objects.filter(Address=txn["fields"]["Receiver"]).exists():
                 Account.objects.filter(Address=txn["fields"]["Receiver"]).update(Balance=F("Balance") + txn["fields"]["Amount"])
