@@ -7,7 +7,7 @@ from rest_framework.parsers import JSONParser
 from rest_framework import status
 from django.http import HttpResponse
 from django.core import serializers
-from django.db.models import F, CharField, Value 
+from django.db.models import F, Func, Value, CharField
 
 import copy
 
@@ -168,6 +168,90 @@ def account_type_payments_receipts(request):
             instrument_type=F( "InstrumentTypeID__Type")).annotate(value=Sum("Amount"),payments=Value("true", output_field=CharField()))
     if request.method == "POST":
         return JsonResponse(list(node_data), safe=False)
+    
+@api_view(['POST'])
+def account_type_transaction_volume(request):
+    fromDate = request.data.get('from','2020-11-03')
+    toDate = request.data.get('to','2021-11-03')
+    interval = request.data.get('interval','day')
+
+    date_format = "yyyy-MM-dd"
+    if (interval == "month"):
+        date_format = "yyyy-MM"
+    elif (interval == "year"):
+        date_format = "yyyy"
+    
+    results = {}
+    final_results = []
+
+    transaction_nodes = Transaction.objects.filter(
+        Timestamp__range=[fromDate, toDate]
+    ).select_related(
+        "Sender__AccountTypeID", "Receiver__AccountTypeID"
+    )
+    
+    sender_data = transaction_nodes.values(
+        account_type=F("Sender__AccountTypeID__Type"),
+        formatted_date=Func(
+            F('Timestamp'),
+            Value(date_format),
+            function='to_char',
+            output_field=CharField()
+        )).annotate(
+            amount=Sum("Amount"),
+            count=Count("TransactionID")).order_by("formatted_date")
+
+    receiver_data = transaction_nodes.values(
+        account_type=F("Receiver__AccountTypeID__Type"),
+        formatted_date=Func(
+            F('Timestamp'),
+            Value(date_format),
+            function='to_char',
+            output_field=CharField()
+        )).annotate(
+            amount=Sum("Amount"),
+            count=Count("TransactionID")).order_by("formatted_date")
+    
+    dates = set()
+
+    for item in sender_data.iterator():
+        formatted_date = item["formatted_date"]
+        dates.add(formatted_date)
+
+        if item["account_type"] in results.keys():
+            results[item["account_type"]][formatted_date] = item["amount"]
+        else:
+            results[item["account_type"]] = {}
+            results[item["account_type"]][formatted_date] = item["amount"]
+
+    for item in receiver_data.iterator():
+        formatted_date = item["formatted_date"]
+        dates.add(formatted_date)
+
+        if item["account_type"] in results.keys():
+            if formatted_date in results[item["account_type"]]:
+                value = results[item["account_type"]][formatted_date]
+                results[item["account_type"]][formatted_date] = value + item["amount"]
+            else:
+                results[item["account_type"]][formatted_date] = item["amount"]
+        else:
+            results[item["account_type"]] = {}
+            results[item["account_type"]][formatted_date] = item["amount"]
+
+    # Put an array in final results
+    for account_type, date_values in results.items():
+        # fill up empty dates
+        for date in dates:
+            if not (date in date_values.keys()):
+                final_results.append({"account_type":account_type,"date":date,"value":"0"})
+
+        for date, value in date_values.items():
+            final_results.append({"account_type":account_type,"date":date,"value":value})
+
+    sorted_final_results = sorted(final_results, key=lambda k: (k["account_type"].lower(), k["date"])) 
+
+    if request.method == "POST":
+        return JsonResponse(sorted_final_results, safe=False)
     
 @api_view(['GET'])
 def account_type_total(request):

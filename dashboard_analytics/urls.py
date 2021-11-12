@@ -12,4 +12,5 @@ urlpatterns = [
     url(r'^api/account_type_total$', views.account_type_total),
     url(r'^api/average_transaction_amount$', views.average_transaction_amount),
     url(r'^api/average_loan_amount$', views.average_loan_amount),
+    url(r'^api/account_type_transaction_volume$', views.account_type_transaction_volume),
 ]
