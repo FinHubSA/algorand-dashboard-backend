@@ -142,7 +142,7 @@
         "fields": {
             "Sender": "HOUSEHOLD1",
             "Receiver": "BANK1",
-            "Amount": 5000,
+            "Amount": 5000000,
             "InstrumentTypeID": 2,
             "Timestamp": "2021-10-08"
         }
@@ -153,7 +153,7 @@
         "fields": {
             "Sender": "HOUSEHOLD2",
             "Receiver": "BANK1",
-            "Amount": 6000,
+            "Amount": 6000000,
             "InstrumentTypeID": 2,
             "Timestamp": "2021-10-08"
         }
@@ -164,7 +164,7 @@
         "fields": {
             "Sender": "BANK1",
             "Receiver": "HOUSEHOLD2",
-            "Amount": 5000,
+            "Amount": 500000,
             "InstrumentTypeID": 3,
             "Timestamp": "2021-10-08"
         }
@@ -175,7 +175,7 @@
         "fields": {
             "Sender": "HOUSEHOLD1",
             "Receiver": "FIRM1",
-            "Amount": 5000,
+            "Amount": 50000,
             "InstrumentTypeID": 1,
             "Timestamp": "2021-10-08"
         }
@@ -186,7 +186,7 @@
         "fields": {
             "Sender": "HOUSEHOLD2",
             "Receiver": "FIRM1",
-            "Amount": 6500,
+            "Amount": 65000,
             "InstrumentTypeID": 1,
             "Timestamp": "2021-10-08"
         }
@@ -197,7 +197,7 @@
         "fields": {
             "Sender": "HOUSEHOLD2",
             "Receiver": "FIRM1",
-            "Amount": 7200,
+            "Amount": 72000,
             "InstrumentTypeID": 1,
             "Timestamp": "2021-10-08"
         }
@@ -208,7 +208,7 @@
         "fields": {
             "Sender": "HOUSEHOLD2",
             "Receiver": "FIRM1",
-            "Amount": 5000,
+            "Amount": 50000,
             "InstrumentTypeID": 1,
             "Timestamp": "2021-10-08"
         }
@@ -219,7 +219,7 @@
         "fields": {
             "Sender": "BANK1",
             "Receiver": "CENTRALBANK",
-            "Amount": 1000,
+            "Amount": 1000000,
             "InstrumentTypeID": 4,
             "Timestamp": "2021-10-08"
         }
@@ -230,7 +230,7 @@
         "fields": {
             "Sender": "BANK1",
             "Receiver": "FIRM1",
-            "Amount": 1000,
+            "Amount": 1000000,
             "InstrumentTypeID": 3,
             "Timestamp": "2021-10-08"
         }
@@ -241,7 +241,7 @@
         "fields": {
             "Sender": "HOUSEHOLD1",
             "Receiver": "HOUSEHOLD2",
-            "Amount": 5000,
+            "Amount": 50000,
             "InstrumentTypeID": 1,
             "Timestamp": "2021-10-08"
         }
