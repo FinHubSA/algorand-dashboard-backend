@@ -6,9 +6,11 @@ from datetime import datetime
 @transaction.atomic
 def process_json_transactions(transactions):
     from .models import AccountType, InstrumentType, Account, Transaction
+    
+    print("processing...")
 
     for txn in transactions:
-        # print(txn["pk"])
+        
         if not Transaction.objects.filter(TransactionID=txn["pk"]).exists():
             s_acctype_id = int(txn["fields"]["SenderAccountTypeCode"])
             r_acctype_id = int(txn["fields"]["ReceiverAccountTypeCode"])
@@ -51,3 +53,5 @@ def process_json_transactions(transactions):
                 # The InstrumentTypeCode is human readable and not more than 2 letters
                 InstrumentTypeID=instrument_type,
                 Timestamp=time_stamp_str)
+    
+    print("finished processing...")
