@@ -8,7 +8,7 @@ class AccountType(models.Model):
 class InstrumentType(models.Model):
     InstrumentTypeID = models.IntegerField(primary_key=True)
     Type = models.CharField(max_length=100)
-
+    
 
 class Account(models.Model):
     Address = models.CharField(max_length=100, blank=False, primary_key=True)

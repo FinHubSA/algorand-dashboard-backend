@@ -1,6 +1,13 @@
 [
     {
         "model": "dashboard_analytics.AccountType",
+        "pk": 0,
+        "fields": {
+            "Type": "Unknown"
+        }
+    },
+    {
+        "model": "dashboard_analytics.AccountType",
         "pk": 1,
         "fields": {
             "Type": "Household"

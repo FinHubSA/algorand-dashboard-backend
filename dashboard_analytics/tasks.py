@@ -1,29 +1,38 @@
 from django.conf import settings
 from celery import shared_task
 from celery.utils.log import get_task_logger
+from algorand_dashboard.celery import app as celery_app
 from .data.cbdc_dict import data
+
 import inspect
 import redis
 
 # Connect to our Redis instance
 redis_instance = redis.StrictRedis(host=settings.REDIS_HOST,port=settings.REDIS_PORT, db=0)
 
-@shared_task
+@celery_app.on_after_finalize.connect
+def setup_tasks(sender, **kwargs):
+
+    # Calls retrieve_blockchain_data_task() every 10 seconds.
+    sender.add_periodic_task(settings.BLOCKCHAIN_FREQUENCY, retrieve_blockchain_data_task.s(), name='retrieve_blockchain_data_task')
+
+    # process json transactions for test data
+    process_transactions_task.delay()
+
+@celery_app.task
+def retrieve_blockchain_data_task():
+    from .functions import retrieve_blockchain_data
+
+    # Retrieve blockchain data
+    retrieve_blockchain_data()
+
+
+@celery_app.task
 def process_transactions_task():
     from .functions import process_json_transactions
-    # Check if task has run yet
-    # Get the function name
-    task_name = inspect.stack()[0][3]
 
-    if not redis_instance.exists(task_name):
-        print("Executing Task: "+task_name)
-        redis_instance.set(task_name, "")
-        
-        # Process transactions
-        process_json_transactions(data)
-        
-        print("Finished Task: "+task_name)
-        redis_instance.delete(task_name)
+    # Process transactions
+    process_json_transactions(data)
     
 
 
