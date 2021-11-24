@@ -150,6 +150,12 @@ CELERY_BROKER_URL = "redis://redistogo:3327cc415da67f5f639287ecacd58025@spinyfin
 CELERY_RESULT_BACKEND = "redis://redistogo:3327cc415da67f5f639287ecacd58025@spinyfin.redistogo.com:"+REDIS_PORT
 CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
 
+# Algorand Blockchain Connection Settings
+ALGOD_ADDRESS = "http://localhost:4001"
+ALGOD_TOKEN = "a" * 64
+INDEXER_ADDRESS = "http://localhost:8980"
+INDEXER_TOKEN = ALGOD_TOKEN
+
 ####################
 ## Local Settings ##
 ####################
