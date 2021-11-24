@@ -14,7 +14,7 @@ redis_instance = redis.StrictRedis(host=settings.REDIS_HOST,port=settings.REDIS_
 def setup_tasks(sender, **kwargs):
 
     # Calls retrieve_blockchain_data_task() every 10 seconds.
-    sender.add_periodic_task(10.0, retrieve_blockchain_data_task.s(), name='retrieve_blockchain_data_task')
+    sender.add_periodic_task(settings.BLOCKCHAIN_FREQUENCY, retrieve_blockchain_data_task.s(), name='retrieve_blockchain_data_task')
 
     # process json transactions for test data
     process_transactions_task.delay()

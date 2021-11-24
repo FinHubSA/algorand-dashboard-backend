@@ -155,6 +155,8 @@ ALGOD_ADDRESS = "http://localhost:4001"
 ALGOD_TOKEN = "a" * 64
 INDEXER_ADDRESS = "http://localhost:8980"
 INDEXER_TOKEN = ALGOD_TOKEN
+# This parameter is for how often the task runs in seconds
+BLOCKCHAIN_FREQUENCY = 10
 
 ####################
 ## Local Settings ##

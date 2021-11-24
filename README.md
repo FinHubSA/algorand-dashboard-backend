@@ -81,7 +81,7 @@ This project exposes an API for the algorand-dashboard-frontend project.
     A celery worker can be initiated to run the transaction processing task with the below command
     NB this is run after after starting the server (which queues the task on redis)
     
-      $ celery -A algorand_dashboard worker -l info
+      $ celery -A algorand_dashboard worker -B
       
 ## Configure app
 
