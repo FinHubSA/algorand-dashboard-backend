@@ -145,35 +145,24 @@
     
     {
         "model": "dashboard_analytics.Transaction",
-        "pk": "1",
+        "pk": "2",
         "fields": {
             "Sender": "HOUSEHOLD1",
             "Receiver": "BANK1",
-            "Amount": 5000000,
+            "Amount": 5000,
             "InstrumentTypeID": 2,
-            "Timestamp": "2021-10-08"
-        }
-    },
-    {
-        "model": "dashboard_analytics.Transaction",
-        "pk": "2",
-        "fields": {
-            "Sender": "HOUSEHOLD2",
-            "Receiver": "BANK1",
-            "Amount": 6000000,
-            "InstrumentTypeID": 2,
-            "Timestamp": "2021-10-08"
+            "Timestamp": "2021-02-02"
         }
     },
     {
         "model": "dashboard_analytics.Transaction",
         "pk": "3",
         "fields": {
-            "Sender": "BANK1",
-            "Receiver": "HOUSEHOLD2",
-            "Amount": 500000,
-            "InstrumentTypeID": 3,
-            "Timestamp": "2021-10-08"
+            "Sender": "HOUSEHOLD1",
+            "Receiver": "BANK1",
+            "Amount": 5000,
+            "InstrumentTypeID": 2,
+            "Timestamp": "2021-02-02"
         }
     },
     {
@@ -181,65 +170,65 @@
         "pk": "4",
         "fields": {
             "Sender": "HOUSEHOLD1",
-            "Receiver": "FIRM1",
-            "Amount": 50000,
-            "InstrumentTypeID": 1,
-            "Timestamp": "2021-10-08"
+            "Receiver": "BANK1",
+            "Amount": 5000,
+            "InstrumentTypeID": 2,
+            "Timestamp": "2021-02-02"
         }
     },
     {
         "model": "dashboard_analytics.Transaction",
         "pk": "5",
         "fields": {
-            "Sender": "HOUSEHOLD2",
-            "Receiver": "FIRM1",
-            "Amount": 65000,
-            "InstrumentTypeID": 1,
-            "Timestamp": "2021-10-08"
+            "Sender": "HOUSEHOLD1",
+            "Receiver": "BANK1",
+            "Amount": 5000,
+            "InstrumentTypeID": 2,
+            "Timestamp": "2021-02-02"
         }
     },
     {
         "model": "dashboard_analytics.Transaction",
         "pk": "6",
         "fields": {
-            "Sender": "HOUSEHOLD2",
-            "Receiver": "FIRM1",
-            "Amount": 72000,
-            "InstrumentTypeID": 1,
-            "Timestamp": "2021-10-08"
+            "Sender": "HOUSEHOLD1",
+            "Receiver": "BANK1",
+            "Amount": 5000,
+            "InstrumentTypeID": 2,
+            "Timestamp": "2021-02-02"
         }
     },
     {
         "model": "dashboard_analytics.Transaction",
         "pk": "7",
         "fields": {
-            "Sender": "HOUSEHOLD2",
-            "Receiver": "FIRM1",
-            "Amount": 50000,
-            "InstrumentTypeID": 1,
-            "Timestamp": "2021-10-08"
+            "Sender": "HOUSEHOLD1",
+            "Receiver": "BANK1",
+            "Amount": 5000,
+            "InstrumentTypeID": 2,
+            "Timestamp": "2021-02-02"
         }
     },
     {
         "model": "dashboard_analytics.Transaction",
         "pk": "8",
         "fields": {
-            "Sender": "BANK1",
-            "Receiver": "CENTRALBANK",
-            "Amount": 1000000,
-            "InstrumentTypeID": 4,
-            "Timestamp": "2021-10-08"
+            "Sender": "HOUSEHOLD1",
+            "Receiver": "BANK1",
+            "Amount": 5000,
+            "InstrumentTypeID": 2,
+            "Timestamp": "2021-02-02"
         }
     },
     {
         "model": "dashboard_analytics.Transaction",
         "pk": "9",
         "fields": {
-            "Sender": "BANK1",
-            "Receiver": "FIRM1",
-            "Amount": 1000000,
-            "InstrumentTypeID": 3,
-            "Timestamp": "2021-10-08"
+            "Sender": "HOUSEHOLD1",
+            "Receiver": "BANK1",
+            "Amount": 5000,
+            "InstrumentTypeID": 2,
+            "Timestamp": "2021-02-02"
         }
     },
     {
@@ -247,10 +236,428 @@
         "pk": "10",
         "fields": {
             "Sender": "HOUSEHOLD1",
+            "Receiver": "BANK1",
+            "Amount": 5000,
+            "InstrumentTypeID": 2,
+            "Timestamp": "2021-02-02"
+        }
+    },
+    {
+        "model": "dashboard_analytics.Transaction",
+        "pk": "11",
+        "fields": {
+            "Sender": "HOUSEHOLD1",
+            "Receiver": "BANK1",
+            "Amount": 5000,
+            "InstrumentTypeID": 2,
+            "Timestamp": "2021-02-02"
+        }
+    },
+    {
+        "model": "dashboard_analytics.Transaction",
+        "pk": "12",
+        "fields": {
+            "Sender": "HOUSEHOLD1",
+            "Receiver": "BANK1",
+            "Amount": 5000,
+            "InstrumentTypeID": 2,
+            "Timestamp": "2021-02-02"
+        }
+    },
+    {
+        "model": "dashboard_analytics.Transaction",
+        "pk": "13",
+        "fields": {
+            "Sender": "HOUSEHOLD2",
+            "Receiver": "BANK1",
+            "Amount": 6000,
+            "InstrumentTypeID": 2,
+            "Timestamp": "2021-02-02"
+        }
+    },
+    {
+        "model": "dashboard_analytics.Transaction",
+        "pk": "14",
+        "fields": {
+            "Sender": "HOUSEHOLD2",
+            "Receiver": "BANK1",
+            "Amount": 6000,
+            "InstrumentTypeID": 2,
+            "Timestamp": "2021-02-02"
+        }
+    },
+    {
+        "model": "dashboard_analytics.Transaction",
+        "pk": "15",
+        "fields": {
+            "Sender": "HOUSEHOLD2",
+            "Receiver": "BANK1",
+            "Amount": 6000,
+            "InstrumentTypeID": 2,
+            "Timestamp": "2021-02-02"
+        }
+    },
+    {
+        "model": "dashboard_analytics.Transaction",
+        "pk": "16",
+        "fields": {
+            "Sender": "HOUSEHOLD2",
+            "Receiver": "BANK1",
+            "Amount": 6000,
+            "InstrumentTypeID": 2,
+            "Timestamp": "2021-02-02"
+        }
+    },
+    {
+        "model": "dashboard_analytics.Transaction",
+        "pk": "17",
+        "fields": {
+            "Sender": "HOUSEHOLD2",
+            "Receiver": "BANK1",
+            "Amount": 60000,
+            "InstrumentTypeID": 2,
+            "Timestamp": "2021-02-02"
+        }
+    },
+    {
+        "model": "dashboard_analytics.Transaction",
+        "pk": "18",
+        "fields": {
+            "Sender": "HOUSEHOLD2",
+            "Receiver": "BANK1",
+            "Amount": 60000,
+            "InstrumentTypeID": 2,
+            "Timestamp": "2021-02-02"
+        }
+    },
+    {
+        "model": "dashboard_analytics.Transaction",
+        "pk": "19",
+        "fields": {
+            "Sender": "HOUSEHOLD2",
+            "Receiver": "BANK1",
+            "Amount": 60000,
+            "InstrumentTypeID": 2,
+            "Timestamp": "2021-02-02"
+        }
+    },
+    {
+        "model": "dashboard_analytics.Transaction",
+        "pk": "20",
+        "fields": {
+            "Sender": "HOUSEHOLD2",
+            "Receiver": "BANK1",
+            "Amount": 60000,
+            "InstrumentTypeID": 2,
+            "Timestamp": "2021-02-02"
+        }
+    },
+    {
+        "model": "dashboard_analytics.Transaction",
+        "pk": "21",
+        "fields": {
+            "Sender": "HOUSEHOLD2",
+            "Receiver": "BANK1",
+            "Amount": 60000,
+            "InstrumentTypeID": 2,
+            "Timestamp": "2021-02-02"
+        }
+    },
+    {
+        "model": "dashboard_analytics.Transaction",
+        "pk": "22",
+        "fields": {
+            "Sender": "HOUSEHOLD2",
+            "Receiver": "BANK1",
+            "Amount": 60000,
+            "InstrumentTypeID": 2,
+            "Timestamp": "2021-02-02"
+        }
+    },
+    {
+        "model": "dashboard_analytics.Transaction",
+        "pk": "23",
+        "fields": {
+            "Sender": "BANK1",
             "Receiver": "HOUSEHOLD2",
+            "Amount": 70000,
+            "InstrumentTypeID": 3,
+            "Timestamp": "2021-02-02"
+        }
+    },
+    {
+        "model": "dashboard_analytics.Transaction",
+        "pk": "24",
+        "fields": {
+            "Sender": "BANK1",
+            "Receiver": "HOUSEHOLD2",
+            "Amount": 70000,
+            "InstrumentTypeID": 3,
+            "Timestamp": "2021-02-02"
+        }
+    },
+    {
+        "model": "dashboard_analytics.Transaction",
+        "pk": "25",
+        "fields": {
+            "Sender": "BANK1",
+            "Receiver": "HOUSEHOLD2",
+            "Amount": 70000,
+            "InstrumentTypeID": 3,
+            "Timestamp": "2021-02-02"
+        }
+    },
+    {
+        "model": "dashboard_analytics.Transaction",
+        "pk": "26",
+        "fields": {
+            "Sender": "BANK1",
+            "Receiver": "HOUSEHOLD2",
+            "Amount": 70000,
+            "InstrumentTypeID": 3,
+            "Timestamp": "2021-02-02"
+        }
+    },
+    {
+        "model": "dashboard_analytics.Transaction",
+        "pk": "27",
+        "fields": {
+            "Sender": "BANK1",
+            "Receiver": "HOUSEHOLD2",
+            "Amount": 70000,
+            "InstrumentTypeID": 3,
+            "Timestamp": "2021-02-02"
+        }
+    },
+    {
+        "model": "dashboard_analytics.Transaction",
+        "pk": "28",
+        "fields": {
+            "Sender": "BANK1",
+            "Receiver": "HOUSEHOLD2",
+            "Amount": 70000,
+            "InstrumentTypeID": 3,
+            "Timestamp": "2021-02-02"
+        }
+    },
+    {
+        "model": "dashboard_analytics.Transaction",
+        "pk": "29",
+        "fields": {
+            "Sender": "BANK1",
+            "Receiver": "HOUSEHOLD2",
+            "Amount": 70000,
+            "InstrumentTypeID": 3,
+            "Timestamp": "2021-02-02"
+        }
+    },
+    {
+        "model": "dashboard_analytics.Transaction",
+        "pk": "30",
+        "fields": {
+            "Sender": "HOUSEHOLD1",
+            "Receiver": "FIRM1",
             "Amount": 50000,
             "InstrumentTypeID": 1,
-            "Timestamp": "2021-10-08"
+            "Timestamp": "2021-02-02"
+        }
+    },
+    {
+        "model": "dashboard_analytics.Transaction",
+        "pk": "31",
+        "fields": {
+            "Sender": "HOUSEHOLD2",
+            "Receiver": "FIRM1",
+            "Amount": 65000,
+            "InstrumentTypeID": 1,
+            "Timestamp": "2021-02-02"
+        }
+    },
+    {
+        "model": "dashboard_analytics.Transaction",
+        "pk": "32",
+        "fields": {
+            "Sender": "HOUSEHOLD2",
+            "Receiver": "FIRM1",
+            "Amount": 72000,
+            "InstrumentTypeID": 1,
+            "Timestamp": "2021-02-02"
+        }
+    },
+    {
+        "model": "dashboard_analytics.Transaction",
+        "pk": "33",
+        "fields": {
+            "Sender": "HOUSEHOLD2",
+            "Receiver": "FIRM1",
+            "Amount": 50000,
+            "InstrumentTypeID": 1,
+            "Timestamp": "2021-02-02"
+        }
+    },
+    {
+        "model": "dashboard_analytics.Transaction",
+        "pk": "34",
+        "fields": {
+            "Sender": "BANK1",
+            "Receiver": "CENTRALBANK",
+            "Amount": 10000,
+            "InstrumentTypeID": 4,
+            "Timestamp": "2021-02-02"
+        }
+    },
+    {
+        "model": "dashboard_analytics.Transaction",
+        "pk": "35",
+        "fields": {
+            "Sender": "BANK1",
+            "Receiver": "CENTRALBANK",
+            "Amount": 10000,
+            "InstrumentTypeID": 4,
+            "Timestamp": "2021-02-02"
+        }
+    },
+    {
+        "model": "dashboard_analytics.Transaction",
+        "pk": "36",
+        "fields": {
+            "Sender": "BANK1",
+            "Receiver": "CENTRALBANK",
+            "Amount": 10000,
+            "InstrumentTypeID": 4,
+            "Timestamp": "2021-02-02"
+        }
+    },
+    {
+        "model": "dashboard_analytics.Transaction",
+        "pk": "37",
+        "fields": {
+            "Sender": "BANK1",
+            "Receiver": "CENTRALBANK",
+            "Amount": 10000,
+            "InstrumentTypeID": 4,
+            "Timestamp": "2021-02-02"
+        }
+    },
+    {
+        "model": "dashboard_analytics.Transaction",
+        "pk": "38",
+        "fields": {
+            "Sender": "BANK1",
+            "Receiver": "CENTRALBANK",
+            "Amount": 10000,
+            "InstrumentTypeID": 4,
+            "Timestamp": "2021-02-02"
+        }
+    },
+    {
+        "model": "dashboard_analytics.Transaction",
+        "pk": "39",
+        "fields": {
+            "Sender": "BANK1",
+            "Receiver": "CENTRALBANK",
+            "Amount": 10000,
+            "InstrumentTypeID": 4,
+            "Timestamp": "2021-02-02"
+        }
+    },
+    {
+        "model": "dashboard_analytics.Transaction",
+        "pk": "40",
+        "fields": {
+            "Sender": "BANK1",
+            "Receiver": "FIRM1",
+            "Amount": 20000,
+            "InstrumentTypeID": 3,
+            "Timestamp": "2021-02-02"
+        }
+    },
+    {
+        "model": "dashboard_analytics.Transaction",
+        "pk": "41",
+        "fields": {
+            "Sender": "BANK1",
+            "Receiver": "FIRM1",
+            "Amount": 20000,
+            "InstrumentTypeID": 3,
+            "Timestamp": "2021-02-02"
+        }
+    },
+    {
+        "model": "dashboard_analytics.Transaction",
+        "pk": "42",
+        "fields": {
+            "Sender": "BANK1",
+            "Receiver": "FIRM1",
+            "Amount": 20000,
+            "InstrumentTypeID": 3,
+            "Timestamp": "2021-02-02"
+        }
+    },
+    {
+        "model": "dashboard_analytics.Transaction",
+        "pk": "43",
+        "fields": {
+            "Sender": "BANK1",
+            "Receiver": "FIRM1",
+            "Amount": 20000,
+            "InstrumentTypeID": 3,
+            "Timestamp": "2021-02-02"
+        }
+    },
+    {
+        "model": "dashboard_analytics.Transaction",
+        "pk": "44",
+        "fields": {
+            "Sender": "BANK1",
+            "Receiver": "FIRM1",
+            "Amount": 200000,
+            "InstrumentTypeID": 3,
+            "Timestamp": "2021-02-02"
+        }
+    },
+    {
+        "model": "dashboard_analytics.Transaction",
+        "pk": "45",
+        "fields": {
+            "Sender": "BANK1",
+            "Receiver": "FIRM1",
+            "Amount": 20000,
+            "InstrumentTypeID": 3,
+            "Timestamp": "2021-02-02"
+        }
+    },
+    {
+        "model": "dashboard_analytics.Transaction",
+        "pk": "46",
+        "fields": {
+            "Sender": "BANK1",
+            "Receiver": "FIRM1",
+            "Amount": 20000,
+            "InstrumentTypeID": 3,
+            "Timestamp": "2021-02-02"
+        }
+    },
+    {
+        "model": "dashboard_analytics.Transaction",
+        "pk": "47",
+        "fields": {
+            "Sender": "BANK1",
+            "Receiver": "FIRM1",
+            "Amount": 20000,
+            "InstrumentTypeID": 3,
+            "Timestamp": "2021-02-02"
+        }
+    },
+    {
+        "model": "dashboard_analytics.Transaction",
+        "pk": "48",
+        "fields": {
+            "Sender": "HOUSEHOLD1",
+            "Receiver": "HOUSEHOLD2",
+            "Amount": 5000,
+            "InstrumentTypeID": 1,
+            "Timestamp": "2021-02-02"
         }
     }
   ]
