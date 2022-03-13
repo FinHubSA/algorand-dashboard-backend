@@ -14,23 +14,36 @@ redis_instance = redis.StrictRedis(host=settings.REDIS_HOST,port=settings.REDIS_
 def setup_tasks(sender, **kwargs):
 
     # Calls retrieve_blockchain_data_task() every 10 seconds.
-    sender.add_periodic_task(settings.BLOCKCHAIN_FREQUENCY, retrieve_blockchain_data_task.s(), name='retrieve_blockchain_data_task')
+    # sender.add_periodic_task(settings.BLOCKCHAIN_FREQUENCY, retrieve_blockchain_data_task.s(), name='retrieve_blockchain_data_task')
 
-    # process json transactions for test data
-    process_transactions_task.delay()
+    print("*** setup tasks! ***")
+    if (not settings.USE_BLOCKCHAIN_DATA):
+        # process json transactions for test data
+        print("*** 1 json ***")
+        process_json_transactions_task.delay()
+    else:
+        # print("*** 1 blockchain ***")
+        create_blockchain_transactions_task.delay()
 
 @celery_app.task
-def retrieve_blockchain_data_task():
-    from .functions import retrieve_blockchain_data
+def create_blockchain_transactions_task():
+    from .functions import create_blockchain_data
+
+    # Create blockchain data
+    create_blockchain_data(data)
+
+@celery_app.task
+def process_blockchain_transactions_task():
+    from .functions import process_blockchain_data
 
     # Retrieve blockchain data
-    retrieve_blockchain_data()
-
+    process_blockchain_data()
 
 @celery_app.task
-def process_transactions_task():
+def process_json_transactions_task():
     from .functions import process_json_transactions
 
+    print("*** 2 json ***")
     # Process transactions
     process_json_transactions(data)
     

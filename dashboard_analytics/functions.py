@@ -1,16 +1,20 @@
 import django
+import json
 from django.conf import settings
-from django.db import transaction, connection
+from django.db import transaction as db_transaction, connection
 from django.db.models import F
 from datetime import datetime
 
-from algosdk.v2client import indexer
-import pandas as pd
+from algosdk.v2client import indexer, algod
+from algosdk import account, mnemonic, constants
+from algosdk.future import transaction
+
+# import pandas as pd
 from io import StringIO
 
 INDEXER_CLIENT = indexer.IndexerClient(settings.INDEXER_TOKEN, settings.INDEXER_ADDRESS)
 
-def retrieve_blockchain_data():
+def process_blockchain_data():
 
     print("retrieving data...")
 
@@ -85,13 +89,151 @@ def get_accounts_address_index():
             nexttoken = response['next-token']
     accounts_full = pd.concat(accounts_global, ignore_index=False)
     print(accounts_full)
+    
     # convert balance to algos. 0.1 algos = 100000 micro aglos. balance currently in microalgos divide by 1000000
     accounts_full['Balance'] = accounts_full['Balance']/1000000
     accounts_full['Balance'] = accounts_full['Balance'].round(13)
+
     print(accounts_full)
+
     return accounts_full
 
-@transaction.atomic
+@db_transaction.atomic
+def create_blockchain_data(transactions):
+    # data structures to keep already generated addresses
+    chain_accounts = {}
+    chain_keys = {}
+    unsigned_transactions = []
+    funding_transactions = []
+
+    print("*** 1 blockchain data ***")
+
+    algod_client = algod.AlgodClient(settings.ALGOD_TOKEN, settings.ALGOD_ADDRESS)
+    params = algod_client.suggested_params()
+    funding_account_key = mnemonic.to_private_key(settings.ALGOD_FUNDING_MNEMONIC)
+
+    # first check if the blockchain data has not been filled already
+    funding_account_info = algod_client.account_info(settings.ALGOD_FUNDING_ADDRESS)
+    print("*** fund info ***",funding_account_info)
+
+
+    print("*** 2 blockchain data ***")
+    # for each txn check if account is created already or add it
+    for txn in transactions:
+        sender_address = txn["fields"]["Sender"]
+        receiver_address = txn["fields"]["Receiver"]
+
+        # set the addresses if not set yet
+        if (sender_address not in chain_accounts):
+            private_key, address = account.generate_account()
+            chain_accounts[sender_address] = [private_key, address]
+            chain_keys[address] = private_key
+
+            # fund the account
+            funding_txn = transaction.PaymentTxn(settings.ALGOD_FUNDING_ADDRESS, params, address, 1000000000, None, "funding transaction")
+            funding_transactions.append(funding_txn)
+
+        if (receiver_address not in chain_accounts):
+            private_key, address = account.generate_account()
+            chain_accounts[receiver_address] = [private_key, address]
+            chain_keys[address] = private_key
+
+            # fund the account
+            funding_txn = transaction.PaymentTxn(settings.ALGOD_FUNDING_ADDRESS, params, address, 1000000000, None, "funding transaction")
+            funding_transactions.append(funding_txn)
+
+        # get the chain adresses
+        sender_chain_address = chain_accounts[sender_address][1]
+        receiver_chain_address = chain_accounts[receiver_address][1]
+
+        # sender private key
+        sender_private_key = chain_accounts[sender_address][0]
+
+        # build transaction
+        note = txn["fields"]["SenderAccountTypeCode"]+";"+txn["fields"]["ReceiverAccountTypeCode"]+";"+txn["fields"]["InstrumentTypeCode"]
+
+        amount = int(txn["fields"]["Amount"])
+        unsigned_txn = transaction.PaymentTxn(sender_chain_address, params, receiver_chain_address, amount, None, note)
+        unsigned_transactions.append(unsigned_txn)
+
+    create_blockchain_transactions(algod_client, funding_transactions, funding_account_key, None)
+    create_blockchain_transactions(algod_client, unsigned_transactions, None, chain_keys)
+
+def create_blockchain_transaction(algod_client, transactions, funding_account_key, chain_keys):
+    counter = 0
+    for un_txn in transactions:
+        print("*** state: l: "+str(len(transactions))+" i: "+str(counter)+" ***")
+
+        if (funding_account_key is None):
+            sender_key = chain_keys[un_txn.sender]
+            signed_txn = un_txn.sign(sender_key)
+        else:
+            signed_txn = un_txn.sign(funding_account_key)
+
+        counter = counter + 1
+
+        try:
+            txid = algod_client.send_transaction(signed_txn)
+        except Exception as err:
+            print("*** err 1 ***", err)
+            continue
+        
+        print("*** submit blockchain data ***")
+        # wait for confirmation 
+        try:
+            confirmed_txn = transaction.wait_for_confirmation(algod_client, txid, 4)
+            print("Transaction Information: {}".format(json.dumps(confirmed_txn, indent=4)))
+        except Exception as err:
+            print("*** err 2 ***", err)
+            continue
+
+
+def create_blockchain_transactions(algod_client, transactions, funding_account_key, chain_keys):
+
+    # max group size is 16 so send them in 16s
+    start_index = 0
+    last_index = min(start_index + 16, len(transactions))
+
+    print("*** start txn processing ***")
+
+    while start_index < len(transactions):
+        
+        signed_transaction_group = []
+
+        transaction_group = transactions[start_index:last_index]
+        transaction.assign_group_id(transaction_group)
+
+        print("*** state: l: "+str(len(transactions))+" i: "+str(start_index)+" - "+str(last_index)+" g: "+str(len(transaction_group)))
+
+        for un_txn in transaction_group:
+            if (funding_account_key is None):
+                sender_key = chain_keys[un_txn.sender]
+                signed_transaction_group.append(un_txn.sign(sender_key))
+            else:
+                signed_transaction_group.append(un_txn.sign(funding_account_key))
+
+        #increment the indexes 
+        start_index = last_index
+        last_index = min(start_index + 16, len(transactions))
+
+        # submit transactions 
+        print("*** txn 0 ***", transaction_group[0])
+        try:
+            txid = algod_client.send_transactions(signed_transaction_group)
+        except Exception as err:
+            print("*** err 1 ***", err)
+            continue
+
+        print("*** submit blockchain data ***")
+        # wait for confirmation 
+        try:
+            confirmed_txn = transaction.wait_for_confirmation(algod_client, txid, 4)
+            print("Transaction Information: {}".format(json.dumps(confirmed_txn, indent=4)))
+        except Exception as err:
+            print("*** err 2 ***", err)
+            continue
+
+@db_transaction.atomic
 def process_json_transactions(transactions):
     from .models import AccountType, InstrumentType, Account, Transaction
 

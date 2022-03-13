@@ -145,6 +145,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 REDIS_HOST="spinyfin.redistogo.com"
 REDIS_PORT="11838"
 REDIS_PASSWORD="3327cc415da67f5f639287ecacd58025"
+
 # celery settings
 CELERY_BROKER_URL = "redis://redistogo:3327cc415da67f5f639287ecacd58025@spinyfin.redistogo.com:"+REDIS_PORT
 CELERY_RESULT_BACKEND = "redis://redistogo:3327cc415da67f5f639287ecacd58025@spinyfin.redistogo.com:"+REDIS_PORT
@@ -155,6 +156,9 @@ ALGOD_ADDRESS = "http://localhost:4001"
 ALGOD_TOKEN = "a" * 64
 INDEXER_ADDRESS = "http://localhost:8980"
 INDEXER_TOKEN = ALGOD_TOKEN
+# This parameter is to determine whether to use blockchain or json data
+USE_BLOCKCHAIN_DATA = False
+
 # This parameter is for how often the task runs in seconds
 BLOCKCHAIN_FREQUENCY = 10
 

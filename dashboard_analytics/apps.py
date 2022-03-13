@@ -1,5 +1,5 @@
 from django.apps import AppConfig
-from dashboard_analytics.tasks import process_transactions_task
+# from dashboard_analytics.tasks import process_json_transactions_task
 
 class DashboardAnalyticsConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
