@@ -156,6 +156,9 @@ ALGOD_ADDRESS = "http://localhost:4001"
 ALGOD_TOKEN = "a" * 64
 INDEXER_ADDRESS = "http://localhost:8980"
 INDEXER_TOKEN = ALGOD_TOKEN
+
+# If set to true the json or blockchain data tasks will automatically start when server starts
+AUTO_POPULATE = True
 # This parameter is to determine whether to use blockchain or json data
 USE_BLOCKCHAIN_DATA = False
 

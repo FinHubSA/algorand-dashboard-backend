@@ -26,5 +26,7 @@ INDEXER_TOKEN = ALGOD_TOKEN
 ALGOD_FUNDING_ADDRESS = "HVSTYAQWRQNIBZVXXHHTRT2MVOG54P5UHRFLM5OYT7BDXFOMZAUCQ6UY5E"
 ALGOD_FUNDING_MNEMONIC = "material wrist treat noodle spare fresh health kite gallery sock size ridge travel rose route crime water oak scrap conduct pledge diamond mixture abandon will"
 
+# If set to true the json or blockchain data tasks will automatically start when server starts
+AUTO_POPULATE = False
 # This parameter is to determine whether to use blockchain or json data
-USE_BLOCKCHAIN_DATA = True
+USE_BLOCKCHAIN_DATA = False
