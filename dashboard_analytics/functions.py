@@ -1,5 +1,7 @@
 import django
 import json
+import pandas as pd
+
 from django.conf import settings
 from django.db import transaction as db_transaction, connection
 from django.db.models import F
@@ -8,6 +10,7 @@ from datetime import datetime
 from algosdk.v2client import indexer, algod
 from algosdk import account, mnemonic, constants
 from algosdk.future import transaction
+
 
 # import pandas as pd
 from io import StringIO
@@ -194,6 +197,10 @@ def create_blockchain_transactions(algod_client, transactions, funding_account_k
     start_index = 0
     last_index = min(start_index + 16, len(transactions))
 
+    initial_pending_transactions_number = len(algod_client.pending_transactions(0))
+
+    print("*** initial pending transactions ***", initial_pending_transactions_number)
+
     print("*** start txn processing ***")
 
     while start_index < len(transactions):
@@ -226,15 +233,26 @@ def create_blockchain_transactions(algod_client, transactions, funding_account_k
 
         print("*** submit blockchain data ***")
         # wait for confirmation 
-        try:
+        """ try:
             confirmed_txn = transaction.wait_for_confirmation(algod_client, txid, 4)
             print("Transaction Information: {}".format(json.dumps(confirmed_txn, indent=4)))
         except Exception as err:
             print("*** err 2 ***", err)
+            continue """
+    
+    pending_transactions_number = initial_pending_transactions_number + 1
+    while pending_transactions_number > initial_pending_transactions_number:
+        try:
+            pending_transactions = algod_client.pending_transactions(0)
+            pending_transactions_number = len(pending_transactions)
+            print("*** pending transactions ***", " pending: "+str(pending_transactions_number)+" initial: "+str(initial_pending_transactions_number))
+        except Exception as err:
+            print("*** err 1 ***", err)
             continue
+        
 
 @db_transaction.atomic
-def process_json_transactions(transactions):
+def process_json_data(transactions):
     from .models import AccountType, InstrumentType, Account, Transaction
 
     for txn in transactions:

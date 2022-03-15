@@ -20,32 +20,33 @@ def setup_tasks(sender, **kwargs):
     if (not settings.USE_BLOCKCHAIN_DATA):
         # process json transactions for test data
         print("*** 1 json ***")
-        process_json_transactions_task.delay()
+        #process_json_data_task.delay()
     else:
-        # print("*** 1 blockchain ***")
-        create_blockchain_transactions_task.delay()
+        print("*** 1 blockchain ***")
+        #create_blockchain_data_task.delay()
 
 @celery_app.task
-def create_blockchain_transactions_task():
+def create_blockchain_data_task():
     from .functions import create_blockchain_data
 
+    print("*** 1 create blockchain data ***")
     # Create blockchain data
     create_blockchain_data(data)
 
 @celery_app.task
-def process_blockchain_transactions_task():
+def process_blockchain_data_task():
     from .functions import process_blockchain_data
 
     # Retrieve blockchain data
     process_blockchain_data()
 
 @celery_app.task
-def process_json_transactions_task():
-    from .functions import process_json_transactions
+def process_json_data_task():
+    from .functions import process_json_data
 
     print("*** 2 json ***")
     # Process transactions
-    process_json_transactions(data)
+    process_json_data(data)
     
 
 
