@@ -21,6 +21,7 @@ joblib==0.16.0
 kombu==5.1.0
 msgpack==1.0.2
 numpy==1.21.2
+pandas==1.4.1
 prompt-toolkit==3.0.20
 psycopg2-binary==2.8.5
 py-algorand-sdk==1.8.0

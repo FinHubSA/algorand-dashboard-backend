@@ -1,5 +1,5 @@
 from django.apps import AppConfig
-from dashboard_analytics.tasks import process_transactions_task
+# from dashboard_analytics.tasks import process_json_data_task
 
 class DashboardAnalyticsConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
@@ -7,4 +7,4 @@ class DashboardAnalyticsConfig(AppConfig):
 
     def ready(self):
         print("dashboard_analytics apps ready")
-        # process_transactions_task.delay()
+        # process_json_data_task.delay()
