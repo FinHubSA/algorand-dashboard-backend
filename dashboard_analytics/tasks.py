@@ -34,10 +34,37 @@ def create_blockchain_data_task():
 
 @celery_app.task
 def process_blockchain_data_task():
-    from .functions import process_blockchain_data
+    from .functions import process_blockchain_accounts
+    from .functions import process_blockchain_transactions
 
-    # Retrieve blockchain data
-    process_blockchain_data()
+    # Populate accounts first
+    process_blockchain_accounts()
+
+    # Populate transactions after
+    process_blockchain_transactions()
+
+    # fill in the account type ids
+    process_accounts_info()
+
+@celery_app.task
+def process_blockchain_transaction_data_task():
+    from .functions import process_blockchain_transactions
+
+    # Populate transactions after
+    process_blockchain_transactions()
+
+@celery_app.task
+def process_blockchain_account_data_task():
+    from .functions import process_blockchain_accounts
+
+    # Populate accounts after
+    process_blockchain_accounts()
+
+@celery_app.task
+def process_accounts_info():
+    from .functions import process_accounts_info
+
+    process_accounts_info()
 
 @celery_app.task
 def process_json_data_task():
