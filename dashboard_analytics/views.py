@@ -5,7 +5,7 @@ from django.db.models import Avg, Count, Min, Sum
 from django.http.response import JsonResponse
 from rest_framework.parsers import JSONParser
 from rest_framework import status
-from django.http import HttpResponse
+from rest_framework.response import Response
 from django.core import serializers
 from django.db.models import F, Func, Value, CharField
 
@@ -21,7 +21,7 @@ def account_list(request):
 
     if request.method == 'GET':
         accounts_serializer = AccountSerializer(accounts, many=True)
-        return JsonResponse(accounts_serializer.data, safe=False)
+        return Response(accounts_serializer.data)
 
 @api_view(['POST'])
 def most_active_accounts(request):
@@ -76,7 +76,7 @@ def most_active_accounts(request):
             results[item["account"]] = item
     
     if request.method == "POST":
-        return JsonResponse(results, safe=False)
+        return Response(results)
 
 @api_view(['POST'])
 def node_transactions(request):
@@ -95,7 +95,7 @@ def node_transactions(request):
         receiver_type=F("Receiver__AccountTypeID__Type"),
         instrument_type=F("InstrumentTypeID__Type"))
     if request.method == 'POST':
-        return JsonResponse(list(node_data), safe=False)
+        return Response(list(node_data))
 
 
 @api_view(['POST'])
@@ -108,7 +108,7 @@ def total_transactions(request):
         "total_transactions": transactions_total
     }
     if request.method == 'POST':
-        return JsonResponse(total_transactions, safe=False)
+        return Response(total_transactions)
 
 @api_view(['POST'])
 def average_transaction_amount(request):
@@ -118,7 +118,7 @@ def average_transaction_amount(request):
     transaction_node = Transaction.objects.filter(Timestamp__range=[fromDate, toDate])
     data = transaction_node.aggregate(average_transaction_amount=Avg("Amount"))
     if request.method == "POST":
-        return JsonResponse(data, safe=False)
+        return Response(data)
 
 @api_view(['POST'])
 def average_loan_amount(request):
@@ -128,7 +128,7 @@ def average_loan_amount(request):
     transaction_node = Transaction.objects.filter(Timestamp__range=[fromDate, toDate],InstrumentTypeID__Type="Loans and Bonds")
     data = transaction_node.aggregate(average_loan_amount=Avg("Amount"))
     if request.method == "POST":
-        return JsonResponse(data, safe=False)
+        return Response(data)
 
 @api_view(['GET'])
 def total_volume(request):
@@ -140,15 +140,15 @@ def total_volume(request):
     }
 
     if request.method == 'GET':
-        return JsonResponse(volume_total, safe=False)
+        return Response(volume_total)
 
 
 @api_view(['GET'])
 def most_active_addresses(request):
     most_active_addresses = list(Account.objects.annotate(transaction_count=Count(
-        "Sender", distinct=True) + Count("Receiver", distinct=True)).values("Address", "transaction_count"))
+        "Sender", distinct=True) + Count("Receiver", distinct=True)).order_by("-transaction_count").values("Address", "transaction_count"))
     if request.method == 'GET':
-        return JsonResponse(most_active_addresses[:6], safe=False)
+        return Response(most_active_addresses[:6])
 
 
 @api_view(['POST'])
@@ -167,7 +167,7 @@ def account_type_payments_receipts(request):
             receiver_type=F("Receiver__AccountTypeID__Type"), 
             instrument_type=F( "InstrumentTypeID__Type")).annotate(value=Sum("Amount"),payments=Value("true", output_field=CharField()))
     if request.method == "POST":
-        return JsonResponse(list(node_data), safe=False)
+        return Response(list(node_data))
     
 @api_view(['POST'])
 def account_type_transaction_volume(request):
@@ -251,7 +251,7 @@ def account_type_transaction_volume(request):
     sorted_final_results = sorted(final_results, key=lambda k: (k["account_type"].lower(), k["date"])) 
 
     if request.method == "POST":
-        return JsonResponse(sorted_final_results, safe=False)
+        return Response(sorted_final_results)
     
 @api_view(['GET'])
 def account_type_total(request):
@@ -260,4 +260,4 @@ def account_type_total(request):
             account_type=F("AccountTypeID__Type"
         )).annotate(value=Sum("Balance"))
     if request.method == 'GET':
-        return JsonResponse(list(node_data), safe=False)
+        return Response(list(node_data))
