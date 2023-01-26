@@ -323,7 +323,7 @@ def process_accounts_info():
                 Q(Sender = OuterRef('Address')) | Q(Receiver = OuterRef('Address'))
             ).annotate(
                 account_type= Case (
-                    When(Sender=OuterRef('Address'), then=F('ReceiverTypeId')),
+                    When(Sender=OuterRef('Address'), then=F('SenderTypeId')),
                     When(Receiver=OuterRef('Address'), then=F('ReceiverTypeId')),
                     default=0
                 )
